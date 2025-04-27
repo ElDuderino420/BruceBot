@@ -48,7 +48,7 @@ export default class ModerationModule extends Module {
         await member.kick(reason);
         const targetName    = member.displayName;
         const moderatorName = interaction.member.displayName;
-        await interaction.reply(`${targetName} was kicked by ${moderatorName} for ${reason}`);
+        await interaction.reply(`${targetName} was kicked by ${moderatorName} for ${reason}\r\nGET OUUUUUUUUTTTTTTTT!!!!`);
     }
 
     async handleBan(interaction) {
@@ -61,7 +61,7 @@ export default class ModerationModule extends Module {
         await interaction.guild.bans.create(user.id, { reason });
         const targetName    = member ? member.displayName : user.tag;
         const moderatorName = interaction.member.displayName;
-        await interaction.reply(`${targetName} was banned by ${moderatorName} for ${reason}`);
+        await interaction.reply(`${targetName} was banned by ${moderatorName} for ${reason}\r\nGET OUUUUUUUUTTTTTTTT!!!!`);
     }
 
     register() {
