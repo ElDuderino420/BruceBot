@@ -69,7 +69,7 @@ _No slash commands; runs automatically._
  ```bash
  git clone https://github.com/ElDuderino420/BruceBot.git
  cd BruceBot/discord-bot-node
-
+```
 2. Install dependencies
 `npm install`
 3. Environment
