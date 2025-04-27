@@ -30,6 +30,9 @@ export class RolePersistenceModule extends Module {
         this.db.data.roles[userId] = roleIds;
         await this.db.write();
     }
+    async registerCommands() {
+        return; // No commands to register for this module
+    }
 
     async handleMemberAdd(member) {
         const userId = member.id;
@@ -52,6 +55,7 @@ export class RolePersistenceModule extends Module {
     }
 
     register() {
+        this.client.on('reloadCommands', () => this.registerCommands());
         this.client.on(Events.GuildMemberRemove, this.handleMemberRemove.bind(this));
         this.client.on(Events.GuildMemberAdd, this.handleMemberAdd.bind(this));
     }

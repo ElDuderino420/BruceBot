@@ -1,8 +1,21 @@
+// modules/config.js
 import { JSONFilePreset } from 'lowdb/node';
 import { SlashCommandBuilder, Events } from 'discord.js';
 import { Module } from '../classes/Module.js';
 
-export class ConfigModule extends Module {
+export default class ConfigModule extends Module {
+    // 1) Bulk‐registration data
+    static commandData = [
+        new SlashCommandBuilder()
+            .setName('setlog')
+            .setDescription('Set the mod-log channel for this guild')
+            .addChannelOption(opt =>
+                opt.setName('channel')
+                   .setDescription('Channel to receive logs')
+                   .setRequired(true)
+            )
+    ];
+
     constructor(client) {
         super(client);
         this.initializeDatabase();
@@ -10,31 +23,17 @@ export class ConfigModule extends Module {
 
     async initializeDatabase() {
         const defaultConfig = { guilds: {} };
-        this.db = await JSONFilePreset('../config.json', defaultConfig);
-    }
-
-    async registerCommands() {
-        await this.client.application.commands.create(
-            new SlashCommandBuilder()
-                .setName('setlog')
-                .setDescription('Set the mod-log channel')
-                .addChannelOption(opt => opt
-                    .setName('channel')
-                    .setDescription('Log channel')
-                    .setRequired(true))
-                .toJSON()
-        );
+        this.db = await JSONFilePreset('config.json', defaultConfig);
     }
 
     async handleSetLog(interaction) {
         const channel = interaction.options.getChannel('channel');
         this.db.data.guilds[interaction.guildId] = { logChannel: channel.id };
         await this.db.write();
-        await interaction.reply(`Log channel set to ${channel}`);
+        await interaction.reply(`✅ Log channel set to ${channel}`);
     }
 
     register() {
-        this.client.once(Events.ClientReady, () => this.registerCommands());
         this.client.on(Events.InteractionCreate, interaction => {
             if (!interaction.isChatInputCommand() || interaction.commandName !== 'setlog') return;
             this.handleSetLog(interaction);
@@ -43,6 +42,6 @@ export class ConfigModule extends Module {
 }
 
 export function registerModule(client) {
-    const module = new ConfigModule(client);
-    module.register();
+    const mod = new ConfigModule(client);
+    mod.register();
 }
