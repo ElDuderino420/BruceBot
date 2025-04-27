@@ -1,0 +1,13 @@
+{
+    "name": "discord-bot-node",
+    "version": "1.0.0",
+    "type": "module",
+    "engines": {
+        "node": ">=16.9.0"
+    },
+    "dependencies": {
+        "discord.js": "^14.0.0",
+        "dotenv": "^16.5.0",
+        "lowdb": "^7.0.1"
+    }
+}
